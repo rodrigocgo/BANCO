@@ -11,6 +11,11 @@ public class Categoria
 	 {
 		 
 	 }
+	@Override
+	public String toString() {
+		return "Categoria [ID_CATEGORIA=" + ID_CATEGORIA + ", DESCRICAO=" + DESCRICAO + ", PUBLICO_ALVO=" + PUBLICO_ALVO
+				+ ", AREA=" + AREA + ", FAIXA_ETARIA=" + FAIXA_ETARIA + "]";
+	}
 	public int getID_CATEGORIA() {
 		return ID_CATEGORIA;
 	}

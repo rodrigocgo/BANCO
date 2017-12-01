@@ -12,7 +12,12 @@ public class Livro
   {
 	  
   }
-  public int getID_LIVRO() {
+  @Override
+public String toString() {
+	return "Livro [ID_LIVRO=" + ID_LIVRO + ", TITULO=" + TITULO + ", Autor=" + Autor + ", Paginas=" + Paginas
+			+ ", EDITORA=" + EDITORA + ", CATEGORIA=" + CATEGORIA + "]";
+}
+public int getID_LIVRO() {
 	return ID_LIVRO;
 }
 public void setID_LIVRO(int iD_LIVRO) {

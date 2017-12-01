@@ -110,7 +110,7 @@ public class LivrariaDAO
 	  
   }
   
-  public int RetornaOcorrenciaPublicoAlvo()
+  public int RetornaOcorrenciaPublicoAlvo() throws ClassNotFoundException
   {
 	  int iRetorno = 0; 
 	  try 

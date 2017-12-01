@@ -12,6 +12,11 @@ public class Publicacao
   {
 	  
   }
+@Override
+public String toString() {
+	return "Publicacao [ID_PUBLICAO=" + ID_PUBLICAO + ", livro=" + livro + ", DATA=" + DATA + ", EXEMPLARES="
+			+ EXEMPLARES + ", PRECO=" + PRECO + "]";
+}
 public int getID_PUBLICAO() {
 	return ID_PUBLICAO;
 }
