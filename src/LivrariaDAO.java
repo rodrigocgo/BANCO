@@ -184,4 +184,33 @@ public class LivrariaDAO
    }
 	    
   }
+  
+  public void RetornaDataOrdernadaNacionalidadeEdataLimite(String sPais, String sData) throws ClassNotFoundException
+  {
+	  try 
+	  {	        
+          String sql = "SELECT nascimento FROM autor WHERE NACIONALIDADE = ? group by nascimento  having nascimento > ?";
+
+           PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
+           stmt.setString(1, sPais);
+           stmt.setString(2, sData);
+        
+           
+           ResultSet rs = stmt.executeQuery();
+           
+           while (rs.next()) 
+           {
+        	 String sNascimento =  rs.getDate("Nascimento").toString(); 
+        	 
+        	 System.out.println("Data = [" + sNascimento + "]");
+           }
+       
+           rs.close();
+           stmt.close();
+          
+       } catch (SQLException e) {
+           System.out.println(e.getMessage());
+    
+   } 
+  }
 }
