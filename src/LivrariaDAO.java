@@ -1,7 +1,9 @@
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class LivrariaDAO 
 {
@@ -12,11 +14,13 @@ public class LivrariaDAO
 	  this.conexao = new  ConnectionClass(user, senha);
   }
   
-  public Autor SelecionaAutoresEmail(String sEmail) throws ClassNotFoundException
+  public ArrayList<Autor> SelecionaAutoresEmail(String sEmail) throws ClassNotFoundException
   {
 	  try 
 	  {
-	        
+		  
+	      ArrayList<Autor> listaRetorno = new ArrayList();
+	      
           Autor autorLocal = new Autor(); 
           String sql = "select nomea, nacionalidade, email  from autor where email = ?";
 
@@ -30,11 +34,12 @@ public class LivrariaDAO
         	   autorLocal.setNACIONALIDADE(rs.getString("NACIONALIDADE"));
         	   autorLocal.setEMAIL(rs.getString("email"));
                System.out.println(autorLocal.toString());
+               listaRetorno.add(autorLocal);
            }
        
            rs.close();
            stmt.close();
-           return autorLocal;
+           return listaRetorno;
        } catch (SQLException e) {
            System.out.println(e.getMessage());
     
@@ -43,12 +48,14 @@ public class LivrariaDAO
 
   }
   
-  public Autor SelecionaAutoresNacionalidades(String sNacionalidade1, String sNacionalidade2, String sNacionalidade3) throws ClassNotFoundException
+  public ArrayList<Autor> SelecionaAutoresNacionalidades(String sNacionalidade1, String sNacionalidade2, String sNacionalidade3) throws ClassNotFoundException
   {
 	  try 
 	  {
 	        
-          Autor autorLocal = new Autor(); 
+          ArrayList<Autor> listaRetorno = new ArrayList();
+          
+		  Autor autorLocal = new Autor(); 
           String sql = "select nomea, sexo, nacionalidade from autor where nacionalidade IN (?, ?, ?)";
 
            PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
@@ -63,12 +70,13 @@ public class LivrariaDAO
         	   autorLocal.setNOMEA(rs.getString("nomea"));
         	   autorLocal.setNACIONALIDADE(rs.getString("NACIONALIDADE"));
         	   autorLocal.setSexo(rs.getString("SEXO").charAt(0));
+        	   listaRetorno.add(autorLocal);
                System.out.println(autorLocal.toString());
            }
        
            rs.close();
            stmt.close();
-           return autorLocal;
+           return listaRetorno;
        } catch (SQLException e) {
            System.out.println(e.getMessage());
     
@@ -76,12 +84,13 @@ public class LivrariaDAO
    }
   }
   
-  public Editora SelecionaEditoraByDate(String sData, String sPais1, String sPais2) throws ClassNotFoundException
+  public ArrayList<Editora> SelecionaEditoraByDate(String sData, String sPais1, String sPais2) throws ClassNotFoundException
   {
 	  try 
 	  {
 	        
-          Editora editoraLocal= new Editora(); 
+          ArrayList<Editora> listaRetorno = new ArrayList();
+		  Editora editoraLocal= new Editora(); 
           String sql = "select nomee, comeco from editora where comeco > ? and pais = ? or pais = ? order by nomee";
 
            PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
@@ -96,12 +105,13 @@ public class LivrariaDAO
         	   
         	   editoraLocal.setNOMEE(rs.getString("nomee"));
         	   editoraLocal.setCOMECO(rs.getString("comeco"));
+        	   listaRetorno.add(editoraLocal);
                System.out.println(editoraLocal.toString());
            }
        
            rs.close();
            stmt.close();
-           return editoraLocal;
+           return listaRetorno;
        } catch (SQLException e) {
            System.out.println(e.getMessage());
     
@@ -110,12 +120,12 @@ public class LivrariaDAO
 	  
   }
   
-  public int RetornaOcorrenciaPublicoAlvo() throws ClassNotFoundException
+  public ArrayList<Categoria> RetornaOcorrenciaPublicoAlvo() throws ClassNotFoundException
   {
 	  int iRetorno = 0; 
 	  try 
 	  {
-	        
+	      ArrayList<Categoria> listaRetorno =  new ArrayList();  
 		  Categoria categoria = new Categoria(); 
           String sql = " select publico_alvo, COUNT(publico_alvo) as QTD from categoria group by PUBLICO_ALVO";
            PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
@@ -126,18 +136,51 @@ public class LivrariaDAO
            while (rs.next()) 
            {
         	   
-        	   String sPublico = rs.getString("PUBLICO_ALVO");
-        	   iRetorno = rs.getInt("QTD");    	   
-        	   System.out.println("Publico_ALVO = ["+ sPublico+"] " +"quantidade = [" + iRetorno + "]");
+        	   categoria.setPUBLICO_ALVO(rs.getString("PUBLICO_ALVO"));
+        	   categoria.setQtd(rs.getInt("QTD"));    	   
+        	   listaRetorno.add(categoria);
+        	   System.out.println(categoria.toString());
            }
        
            rs.close();
            stmt.close();
-           return iRetorno;
+           return listaRetorno;
        } catch (SQLException e) {
            System.out.println(e.getMessage());
     
-       return -1;
+       return null;
+   }
+	    
+  }
+  
+  public ArrayList<Autor> RetornaOcorrencia() throws ClassNotFoundException
+  { 
+	  try 
+	  {
+	        
+		  ArrayList<Autor> listRetorno = new ArrayList();
+		  Autor autor = new Autor(); 
+          String sql = "select distinct(sexo) as gen,  nomea from autor where sexo = 'M' order by nomea";
+          PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
+        
+           
+           ResultSet rs = stmt.executeQuery();
+           
+           while (rs.next()) 
+           {
+        	   autor.setSexo(rs.getString("GEN").charAt(0));
+        	   autor.setNOMEA(rs.getString("NOMEA"));
+        	   System.out.println(autor.toString());
+        	   listRetorno.add(autor);
+           }
+       
+           rs.close();
+           stmt.close();
+           return listRetorno;
+       } catch (SQLException e) {
+           System.out.println(e.getMessage());
+    
+       return null;
    }
 	    
   }

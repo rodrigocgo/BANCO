@@ -6,15 +6,24 @@ public class Categoria
 	 private String PUBLICO_ALVO;
 	 private String AREA;
 	 private String FAIXA_ETARIA;
+	 private int qtd;
 	 
-	 public Categoria()
+	 
+	 public int getQtd() {
+		return qtd;
+	}
+	public void setQtd(int qtd) {
+		this.qtd = qtd;
+	}
+	public Categoria()
 	 {
 		 
 	 }
+	
 	@Override
 	public String toString() {
 		return "Categoria [ID_CATEGORIA=" + ID_CATEGORIA + ", DESCRICAO=" + DESCRICAO + ", PUBLICO_ALVO=" + PUBLICO_ALVO
-				+ ", AREA=" + AREA + ", FAIXA_ETARIA=" + FAIXA_ETARIA + "]";
+				+ ", AREA=" + AREA + ", FAIXA_ETARIA=" + FAIXA_ETARIA + ", qtd=" + qtd + "]";
 	}
 	public int getID_CATEGORIA() {
 		return ID_CATEGORIA;
