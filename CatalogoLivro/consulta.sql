@@ -65,3 +65,13 @@ where area = 'Entretenimento'
 group by DESCRICAO
 having id_categoria > 320
 order by descricao;
+
+
+
+-- Retorna Livros da editora 100 com números de páginas menor que todas as consultas da editora 111  
+SELECT livro.titulo,livro.TITULO,livro.EDITORA
+FROM Livro livro
+WHERE livro.editora = 100 AND livro.paginas < ALL
+(SELECT livro1.paginas
+FROM Livro livro1
+WHERE livro1.editora = 111); 
