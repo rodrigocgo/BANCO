@@ -18,9 +18,9 @@ public class LivrariaDAO
 	  {
 	        
           Autor autorLocal = new Autor(); 
-          String sql = "select nomea, nacionalidade, email  autor where email = ?";
+          String sql = "select nomea, nacionalidade, email  from autor where email = ?";
 
-           PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
+          PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
            stmt.setString(1, sEmail);
            ResultSet rs = stmt.executeQuery();
            
@@ -49,7 +49,7 @@ public class LivrariaDAO
 	  {
 	        
           Autor autorLocal = new Autor(); 
-          String sql = "select nomea, sexo, nacionalidade from autor nacionalidade IN (?, ?, ?)";
+          String sql = "select nomea, sexo, nacionalidade from autor where nacionalidade IN (?, ?, ?)";
 
            PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
            stmt.setString(1, sNacionalidade1);
@@ -62,7 +62,7 @@ public class LivrariaDAO
            {
         	   autorLocal.setNOMEA(rs.getString("nomea"));
         	   autorLocal.setNACIONALIDADE(rs.getString("NACIONALIDADE"));
-        	   autorLocal.setEMAIL(rs.getString("email"));
+        	   autorLocal.setSexo(rs.getString("SEXO").charAt(0));
                System.out.println(autorLocal.toString());
            }
        
@@ -116,7 +116,6 @@ public class LivrariaDAO
 	  try 
 	  {
 	        
-     
 		  Categoria categoria = new Categoria(); 
           String sql = " select publico_alvo, COUNT(publico_alvo) as QTD from categoria group by PUBLICO_ALVO";
            PreparedStatement stmt = conexao.getConnection().prepareStatement(sql);
@@ -127,8 +126,9 @@ public class LivrariaDAO
            while (rs.next()) 
            {
         	   
+        	   String sPublico = rs.getString("PUBLICO_ALVO");
         	   iRetorno = rs.getInt("QTD");    	   
-        	   System.out.println("public = [" + iRetorno + "]");
+        	   System.out.println("Publico_ALVO = ["+ sPublico+"] " +"quantidade = [" + iRetorno + "]");
            }
        
            rs.close();
